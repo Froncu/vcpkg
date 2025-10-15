@@ -45,6 +45,26 @@ while (!($vcpkgRootDir -eq "") -and !(Test-Path "$vcpkgRootDir\.vcpkg-root"))
 
 Write-Verbose "Examining $vcpkgRootDir for .vcpkg-root - Found"
 
+# Check if vcpkg.exe already exists
+if (Test-Path "$vcpkgRootDir\vcpkg.exe")
+{
+    Write-Host "vcpkg.exe already exists."
+    exit 0
+}
+
+# Check if another instance is running
+$mutexName = "Global\vcpkg-bootstrap-$($vcpkgRootDir -replace '\\','-' -replace ':','')"
+$mutex = New-Object System.Threading.Mutex($false, $mutexName)
+if (-not $mutex.WaitOne(0))
+{
+    Write-Host "Another instance of bootstrap is running. Waiting..."
+    $mutex.WaitOne() | Out-Null
+    $mutex.ReleaseMutex()
+    $mutex.Dispose()
+    Write-Host "Other instance completed."
+    exit 0
+}
+
 # Read the vcpkg-tool config file to determine what release to download
 $Config = ConvertFrom-StringData (Get-Content "$PSScriptRoot\vcpkg-tool-metadata.txt" -Raw)
 $versionDate = $Config.VCPKG_TOOL_RELEASE_TAG
@@ -56,6 +76,9 @@ if ($env:PROCESSOR_ARCHITECTURE -eq 'ARM64' -or $env:PROCESSOR_IDENTIFIER -match
 }
 
 Write-Host ""
+
+$mutex.ReleaseMutex()
+$mutex.Dispose()
 
 if ($LASTEXITCODE -ne 0)
 {
