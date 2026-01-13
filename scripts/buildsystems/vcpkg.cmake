@@ -389,16 +389,12 @@ if(EMSCRIPTEN)
     set(Z_VCPKG_TARGET_TRIPLET_PLAT emscripten)
 endif()
 
+if (${Z_VCPKG_TARGET_TRIPLET_PLAT} STREQUAL windows)
+   string(APPEND Z_VCPKG_TARGET_TRIPLET_PLAT -static-md)
+endif()
+
 set(VCPKG_TARGET_TRIPLET "${Z_VCPKG_TARGET_TRIPLET_ARCH}-${Z_VCPKG_TARGET_TRIPLET_PLAT}" CACHE STRING "Vcpkg target triplet (ex. x86-windows)")
 set(Z_VCPKG_TOOLCHAIN_DIR "${CMAKE_CURRENT_LIST_DIR}")
-
-if(WIN32 AND VCPKG_LIBRARY_LINKAGE STREQUAL "static")
-   if (MINGW)
-      string(REGEX REPLACE "-dynamic" "-static" VCPKG_TARGET_TRIPLET ${VCPKG_TARGET_TRIPLET})
-   else()
-      string(APPEND VCPKG_TARGET_TRIPLET -static)
-   endif()
-endif()
 
 # Detect .vcpkg-root to figure VCPKG_ROOT_DIR
 set(Z_VCPKG_ROOT_DIR_CANDIDATE "${CMAKE_CURRENT_LIST_DIR}")
