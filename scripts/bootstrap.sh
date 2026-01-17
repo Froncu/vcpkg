@@ -6,27 +6,6 @@ while [ "$vcpkgRootDir" != "/" ] && ! [ -e "$vcpkgRootDir/.vcpkg-root" ]; do
     vcpkgRootDir="$(dirname "$vcpkgRootDir")"
 done
 
-# Check if vcpkg already exists
-if [ -f "$vcpkgRootDir/vcpkg" ]; then
-    echo "vcpkg already exists."
-    exit 0
-fi
-
-# Check if another instance is running using a lock file
-lockFile="$vcpkgRootDir/.vcpkg-bootstrap.lock"
-if [ -e "$lockFile" ]; then
-    echo "Another instance of bootstrap is running. Waiting..."
-    while [ -e "$lockFile" ]; do
-        sleep 1
-    done
-    echo "Other instance completed."
-    exit 0
-fi
-
-# Create lock file
-touch "$lockFile"
-trap 'rm -f "$lockFile"' EXIT INT TERM
-
 # Parse arguments.
 vcpkgDisableMetrics="OFF"
 vcpkgUseSystem=false
