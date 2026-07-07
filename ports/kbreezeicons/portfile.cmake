@@ -2,7 +2,7 @@ vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO KDE/breeze-icons
     REF "v${VERSION}"
-    SHA512 56f21a74c68768194ce16b2d4768fd21ccb385ef9911431a17c00976168e10fb33e978e5c1f7eb4311f861cca0a30f6bca8a907fbaac81be88425884478836a3
+    SHA512 ed1319c56aa68b266090f53628dd2f47852d47af3d5d72bbd8f8c6996cc2528e139e4237548a7a71f13b40b9ff9c5e1880bf02175d28ea7276c6cde708db894c
     HEAD_REF master
 )
 
@@ -17,7 +17,10 @@ vcpkg_cmake_configure(
 )
 
 vcpkg_cmake_install()
-vcpkg_cmake_config_fixup(CONFIG_PATH lib/cmake/KF6BreezeIcons)
+vcpkg_cmake_config_fixup(
+    PACKAGE_NAME kf6breezeicons
+    CONFIG_PATH lib/cmake/KF6BreezeIcons
+)
 vcpkg_copy_pdbs()
 
 file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/include")

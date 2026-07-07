@@ -2,7 +2,7 @@ vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO KDE/kglobalaccel
     REF "v${VERSION}"
-    SHA512 6f69cb1ba5648e033bb5d99d3a558c63f332e8e2ba78fff2678de03b0ad57d5ccb22f60d7f85c7c2251160ac1bf9ad35d3de9e1e12b08aca2f8e6931ee69a5aa
+    SHA512 d8186d0ea4f8ee84e7b398fe507c023378626005515b41dede5d2539d19b00bed66654ea1ef1a98e3fe2a507c8451de1bc449614a88c3a4dd459b8ed9d2daeac
     HEAD_REF master
 )
 
@@ -27,7 +27,10 @@ vcpkg_cmake_configure(
 )
 
 vcpkg_cmake_install()
-vcpkg_cmake_config_fixup(CONFIG_PATH lib/cmake/KF6GlobalAccel)
+vcpkg_cmake_config_fixup(
+    PACKAGE_NAME kf6globalaccel
+    CONFIG_PATH lib/cmake/KF6GlobalAccel
+)
 vcpkg_copy_pdbs()
 
 file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/include")

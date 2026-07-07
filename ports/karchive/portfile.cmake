@@ -2,7 +2,7 @@ vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO KDE/karchive
     REF "v${VERSION}"
-    SHA512 d3516e17a98cfa40ce3f863dc2b209361435de5c76a42423ac2518602ca71b54ac3294ebaa93d38c904b3a0b968fab52e754c32c9c70c938d310e3d5acb50229
+    SHA512 528cbf46f4a3cd90f9b6616e0d44ed21f5e8feeafccd760b7984f0935a1ae7dec98241de3dbbee7804d0acb8112b2acdfea9f6eb847069b6eb323f3f950981b0
     HEAD_REF master
     PATCHES
         zstd.diff
@@ -18,6 +18,8 @@ vcpkg_check_features(
         bzip2           VCPKG_LOCK_FIND_PACKAGE_BZip2
         lzma            WITH_LIBLZMA
         lzma            VCPKG_LOCK_FIND_PACKAGE_LibLZMA
+        openssl         WITH_OPENSSL
+        openssl         VCPKG_LOCK_FIND_PACKAGE_OpenSSL
         zstd            WITH_LIBZSTD
         zstd            VCPKG_LOCK_FIND_PACKAGE_LibZstd
     INVERTED_FEATURES
@@ -29,15 +31,22 @@ vcpkg_cmake_configure(
     OPTIONS
         -DBUILD_TESTING=OFF
         -DCMAKE_DISABLE_FIND_PACKAGE_Git=1
+        -DECM_PKGCONFIG_INSTALL_DIR:PATH="${CURRENT_PACKAGES_DIR}/discard_pkgconfig"
         ${FEATURE_OPTIONS}
 )
 
 vcpkg_cmake_install()
-vcpkg_cmake_config_fixup(CONFIG_PATH lib/cmake/KF6Archive)
+vcpkg_cmake_config_fixup(
+    PACKAGE_NAME kf6archive
+    CONFIG_PATH lib/cmake/KF6Archive
+)
 vcpkg_copy_pdbs()
 
-file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/include")
-file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/share")
+file(REMOVE_RECURSE
+    "${CURRENT_PACKAGES_DIR}/debug/include"
+    "${CURRENT_PACKAGES_DIR}/debug/share"
+    "${CURRENT_PACKAGES_DIR}/discard_pkgconfig"
+)
 
 file(GLOB LICENSE_FILES "${SOURCE_PATH}/LICENSES/*")
 vcpkg_install_copyright(FILE_LIST ${LICENSE_FILES})

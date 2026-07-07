@@ -2,7 +2,7 @@ vcpkg_download_distfile(
     ARCHIVE_PATH
     URLS "https://archive.apache.org/dist/arrow/arrow-${VERSION}/apache-arrow-${VERSION}.tar.gz"
     FILENAME apache-arrow-${VERSION}.tar.gz
-    SHA512 c687e50dfcdbf7e0e39710224360d35d9aa734452b3a47adc8c101f3019b6b4116310c05b9f3cd0a5ed4ad9b7bd8fb88edb70e79b3cbd413a57e5e35e4554a6c
+    SHA512 ffbac0c198c74f26b2ac173aa2b054cfd3902927ca3db36fbbae25353e8696c32b744e805c25801ced22641af71a5a8ea441202d8d3494aa803b797995d9d408
 )
 vcpkg_extract_source_archive(
     SOURCE_PATH
@@ -13,6 +13,7 @@ vcpkg_extract_source_archive(
         0004-android-datetime.patch
         0005-cmake-msvcruntime.patch
         0007-use-vcpkg-mimalloc.patch
+        0008-ostringstring.patch
 )
 
 # Check cpp/cmake_modules/DefineOptions.cmake for option dependencies -
@@ -63,6 +64,7 @@ vcpkg_cmake_configure(
         -DARROW_WITH_BZ2=ON
         -DARROW_WITH_LZ4=ON
         -DARROW_WITH_SNAPPY=ON
+        -DARROW_WITH_UTF8PROC=ON
         -DARROW_WITH_ZLIB=ON
         -DARROW_WITH_ZSTD=ON
         -DBUILD_WARNING_LEVEL=PRODUCTION

@@ -2,7 +2,7 @@ vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO KDE/ki18n
     REF "v${VERSION}"
-    SHA512 85ad784de2588777920994f88ddcccfad2549c96ed054d5012df887ace9b89696e0e9d22e623b4a936ceaed3de06d3a8d2bb1feeaa47628587bd1c0cb6c089af
+    SHA512 b57ebf21c6ddefd76761ef47ffbf3a49e1b29f3f8554e8b02e289d19197521e49286c9b6875e0746bce2db8a3bec9468eb992559aec7570f968dbbedfc8c64b0
     HEAD_REF master
 )
 
@@ -30,7 +30,10 @@ vcpkg_cmake_configure(
 )
 
 vcpkg_cmake_install()
-vcpkg_cmake_config_fixup(CONFIG_PATH lib/cmake/KF6I18n)
+vcpkg_cmake_config_fixup(
+    PACKAGE_NAME kf6i18n
+    CONFIG_PATH lib/cmake/KF6I18n
+)
 vcpkg_copy_pdbs()
 
 # KF6I18nMacros.cmake embeds the Python executable path used at build time as a

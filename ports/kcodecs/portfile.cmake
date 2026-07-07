@@ -2,7 +2,7 @@ vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO KDE/kcodecs
     REF "v${VERSION}"
-    SHA512 3562992d6ab9bba41978a83f3f748e3c6cd9219225e6b93e9696a9a9d4dc5abec4443f77a6888195f5648fc81e6993168b01e470866ff5803677bf9b935b2de4
+    SHA512 fc0f8a70fcf1425369bddbec9b5a34bbc2dc8beb50b4e03f51077cf77e946eb483e2f2020e7ff7323f184b3e5981a9df4827d93c0557148a4f3cf6f675a51db6
     HEAD_REF master
 )
 
@@ -23,7 +23,10 @@ vcpkg_cmake_configure(
 )
 
 vcpkg_cmake_install()
-vcpkg_cmake_config_fixup(CONFIG_PATH lib/cmake/KF6Codecs)
+vcpkg_cmake_config_fixup(
+    PACKAGE_NAME kf6codecs
+    CONFIG_PATH lib/cmake/KF6Codecs
+)
 vcpkg_copy_pdbs()
 
 file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/include")

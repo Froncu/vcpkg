@@ -2,7 +2,7 @@ vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO KDE/kdbusaddons
     REF "v${VERSION}"
-    SHA512 5df716edcd00be1c9ca6debb55cb3acbac92140d8550d78bc0e0bcc738ffffc058986c3c96a8899b9f7e2b98d7f4e8974f9c1c6fad26292eccef1c4bd9466d0a
+    SHA512 8eb68fa9eec7e944038b93658ab010bf9548ae6c745082b93c117ffc814068789f3d96d779d6db7d04c4dcb8af1095aa2f0bce9ff552253973ea6398742834ce
     HEAD_REF master
 )
 
@@ -23,7 +23,10 @@ vcpkg_cmake_configure(
 )
 
 vcpkg_cmake_install()
-vcpkg_cmake_config_fixup(CONFIG_PATH lib/cmake/KF6DBusAddons)
+vcpkg_cmake_config_fixup(
+    PACKAGE_NAME kf6dbusaddons
+    CONFIG_PATH lib/cmake/KF6DBusAddons
+)
 vcpkg_copy_pdbs()
 
 if(VCPKG_TARGET_IS_WINDOWS)
